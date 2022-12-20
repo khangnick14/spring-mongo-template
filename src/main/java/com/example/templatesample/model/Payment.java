@@ -6,6 +6,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Data
 @Builder
 @Document(collection = "payment")
@@ -16,7 +18,7 @@ public class Payment {
     private Long paymentID;
     private String bank;
     private String accountNumber;
-    private Data dateIssued;
+    private Date dateIssued;
     private Long studentID;
 
 }

@@ -3,6 +3,7 @@ package com.example.templatesample.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -18,7 +19,7 @@ import javax.annotation.Resource;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Resource(name = "userService")
+    @Resource(name = "profileService")
     private UserDetailsService userDetailsService;
 
     @Override
@@ -37,9 +38,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .anonymous().disable()
+//                .anonymous().disable()
                 .authorizeRequests()
-                .antMatchers("/api-docs/**").permitAll();
+                .antMatchers("/profile/sign-up/**","/profile/sign-in").permitAll()
+                .antMatchers("/swagger-ui").permitAll()
+//                .antMatchers("/").hasAnyAuthority("PROFESSOR","STUDENT")
+                .antMatchers("/professor/**").hasAuthority("PROFESSOR")
+                .antMatchers("/student/**").hasAuthority("STUDENT")
+                .anyRequest().authenticated()
+                .and()
+                .httpBasic();
+    //                .and().oauth2Login();
     }
 
     @Bean

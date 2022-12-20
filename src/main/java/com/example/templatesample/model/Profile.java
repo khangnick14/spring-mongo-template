@@ -2,17 +2,28 @@ package com.example.templatesample.model;
 
 
 import com.example.templatesample.model.enums.Role;
-import lombok.Builder;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import net.bytebuddy.implementation.bind.annotation.Super;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Data
-@Builder
+@Getter
+@Setter
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Profile {
-    private String userName;
-    private String email;
-    private String password;
-    private Role userRole;
-    private Integer age;
-    private String education;
-    private String avatar;
+    @Id
+    public String profileID;
+    public String userName;
+    public String email;
+    public String password;
+    public Role userRole;
+    public Integer age;
+    public String education;
+    public String avatar;
 }

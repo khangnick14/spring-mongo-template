@@ -2,7 +2,9 @@ package com.example.templatesample.service;
 
 import com.example.templatesample.model.Professor;
 import com.example.templatesample.repository.ProfessorRepository;
+import com.example.templatesample.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,9 +17,13 @@ public class ProfessorServiceImpl implements ProfessorService {
     @Autowired
     private ProfessorRepository professorRepository;
 
+    @Autowired
+    private ProfileRepository profileRepository;
+
     @Override
     public ResponseEntity<String> createProfessor(Professor professor) {
-        return new ResponseEntity<>("Successfully create professor " + professorRepository.save(professor).getProfessorID(), HttpStatus.OK);
+        profileRepository.save(professor);
+        return new ResponseEntity<>("Successfully create professor " + professorRepository.save(professor).getProfileID(), HttpStatus.OK);
     }
 
     @Override
@@ -39,6 +45,7 @@ public class ProfessorServiceImpl implements ProfessorService {
         Professor _professor = professorData.get();
         _professor.updateProfessor(professor);
         professorRepository.save(_professor);
+        profileRepository.save(_professor);
         return new ResponseEntity<>(_professor, HttpStatus.OK);
     }
 
@@ -46,6 +53,8 @@ public class ProfessorServiceImpl implements ProfessorService {
     public ResponseEntity<String> deleteProfessor(String id) {
         try {
             professorRepository.deleteById(id);
+            profileRepository.deleteById(id);
+
             return new ResponseEntity<>("Successfully delete a professor " + id, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Cannot find a professor]",HttpStatus.INTERNAL_SERVER_ERROR);

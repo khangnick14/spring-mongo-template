@@ -1,7 +1,9 @@
 package com.example.templatesample.service;
 
 import com.example.templatesample.model.Professor;
+import com.example.templatesample.model.Profile;
 import com.example.templatesample.model.Student;
+import com.example.templatesample.repository.ProfileRepository;
 import com.example.templatesample.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,9 +18,13 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private ProfileRepository profileRepository;
+
     @Override
     public ResponseEntity<String> createStudent(Student student) {
-        return new ResponseEntity<>("Successfully create student " + studentRepository.save(student).getStudentID(), HttpStatus.OK);
+        profileRepository.save(student);
+        return new ResponseEntity<>("Successfully create student " + studentRepository.save(student).getProfileID(), HttpStatus.OK);
     }
 
     @Override
@@ -35,6 +41,7 @@ public class StudentServiceImpl implements StudentService {
     public ResponseEntity<String> deleteStudent(String id) {
         try {
             studentRepository.deleteById(id);
+            profileRepository.deleteById(id);
             return new ResponseEntity<>("Successfully delete a student " + id, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Cannot find a student]",HttpStatus.INTERNAL_SERVER_ERROR);
@@ -50,6 +57,7 @@ public class StudentServiceImpl implements StudentService {
         Student _student = studentData.get();
         _student.updateStudent(student);
         studentRepository.save(_student);
+        profileRepository.save(_student);
         return new ResponseEntity<>(_student, HttpStatus.OK);
     }
 }

@@ -1,7 +1,9 @@
 package com.example.templatesample.controller;
 
 import com.example.templatesample.model.Professor;
+import com.example.templatesample.repository.ProfileRepository;
 import com.example.templatesample.service.ProfessorService;
+import com.example.templatesample.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class ProfessorController {
     @Autowired
     private ProfessorService professorService;
+
 
     //Create
     @PostMapping
@@ -45,4 +48,5 @@ public class ProfessorController {
 //    public ResponseEntity<Category> updateCategoryById(@PathVariable String id, @RequestBody Category category) {
 //        return professorService.updateCategory(id, category);
 //    }
+
 }

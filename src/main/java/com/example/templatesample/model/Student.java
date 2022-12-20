@@ -1,29 +1,34 @@
 package com.example.templatesample.model;
 
 import com.example.templatesample.model.enums.Major;
+import com.example.templatesample.model.enums.Role;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 
 
-@Data
-@Builder
+@SuperBuilder
+@Getter
 @Document(collection = "student")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class Student {
-        @Id
-        private String studentID;
-        private Profile profile;
+@NoArgsConstructor
+@AllArgsConstructor
+public class Student extends Profile {
         private Major major;
         private Payment payment;
 
+
         public void updateStudent(Student newStudent) {
-                this.studentID = newStudent.getStudentID();
-                this.profile = newStudent.getProfile();
+                this.profileID = newStudent.getProfileID();
+                this.userName = newStudent.getUserName();
+                this.email = newStudent.getEmail();
+                this.password = newStudent.getPassword();
+                this.age = newStudent.getAge();
+                this.education = newStudent.education;
+                this.avatar = newStudent.getAvatar();
                 this.major = newStudent.getMajor();
                 this.payment = newStudent.getPayment();
         }

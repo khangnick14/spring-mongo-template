@@ -1,6 +1,7 @@
 package com.example.templatesample.controller;
 
 import com.example.templatesample.model.Student;
+import com.example.templatesample.repository.ProfileRepository;
 import com.example.templatesample.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
